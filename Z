@@ -1,0 +1,56 @@
+#!/bin/bash
+clear
+fun_bar() {
+    CMD[0]="$1"
+    CMD[1]="$2"
+    (
+        [[ -e $HOME/fim ]] && rm $HOME/fim
+        ${CMD[0]} -y >/dev/null 2>&1
+        ${CMD[1]} -y >/dev/null 2>&1
+        touch $HOME/fim
+    ) >/dev/null 2>&1 &
+    tput civis
+    echo -ne "  \033[0;33mPlease Wait Loading \033[1;37m- \033[0;33m["
+    while true; do
+        for ((i = 0; i < 10; i++)); do
+            echo -ne "\033[0;32mF"
+            sleep 0.1s
+        done
+        [[ -e $HOME/fim ]] && rm $HOME/fim && break
+        echo -e "\033[0;33m]"
+        sleep 1s
+        tput cuu1
+        tput dl1
+        echo -ne "  \033[0;33mPlease Wait Loading \033[1;37m- \033[0;33m["
+    done
+    echo -e "\033[0;33m]\033[1;37m -\033[1;32m OK !\033[1;37m"
+    tput cnorm
+}
+res1() {
+cd /usr/bin
+wget -q -O trial "https://github.com/arismaramar/AutoScriptXray-ssh/main/ssh/trial.sh"
+wget -q -O usernew "https://github.com/arismaramar/AutoScriptXray-ssh/main/ssh/usernew.sh"
+wget -q -O add-tr "https://github.com/arismaramar/AutoScriptXray-ssh/main/xray/add-tr.sh"
+chmod +x *
+cd
+    wget https://raw.githubusercontent.com/arismaramar/v6/main/menu/menu.zip
+    unzip menu.zip
+    chmod +x menu/*
+    mv menu/* /usr/local/sbin
+    rm -rf menu.zip
+    rm -rf Z
+}
+netfilter-persistent
+clear
+figlet 'Bayu Store' | lolcat
+echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e " \e[1;97;101m              FIX ERROR SCRIPT           \e[0m"
+echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e ""
+echo -e "  \033[1;91m Fix Error script service\033[1;37m"
+fun_bar 'res1'
+echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e ""
+history -c
+read -n 1 -s -r -p "Press [ Enter ] to back on menu"
+menu
