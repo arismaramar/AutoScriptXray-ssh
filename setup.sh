@@ -293,7 +293,7 @@ cd /usr/bin
 wget -q -O /usr/bin/loop "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/Queue/loop.sh"
 wget -q -O /usr/bin/matikan "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/Queue/matikan.sh"
 wget -q -O /usr/bin/limit "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/Queue/Queue.sh"
-wget -q -O /usr/bin/Queue-ip-ssh "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/Queue/Queue-ip-ssh.sh"
+wget -q -O /usr/bin/Queue-ip-ssh "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/Queue/Queu-ip-ssh.sh"
 wget -q -O /usr/bin/Queue-ip-trojan "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/Queue/Queue-ip-trojan.sh"
 wget -q -O /usr/bin/Queue-ip-vless "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/Queue/Queue-ip-vless.sh"
 wget -q -O /usr/bin/Queue-ip-vmess "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/Queue/Queue-ip-vmess.sh"
