@@ -6,7 +6,7 @@
 <pre><code>wget -q -O fix "https://raw.githubusercontent.com/xsm-syn/fix/main/ws-700.sh" && bash fix</pre></code>
 
 # `Manual Update`
-<pre><code>wget https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/updatemenu.sh && chmod +x updatemenu.sh && ./updatemenu.sh</pre></code>
+<pre><code>wget -O updatemenu.sh https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/updatemenu.sh && chmod +x updatemenu.sh && ./updatemenu.sh</pre></code>
 
 # `Update Backup`
-<pre><code>wget https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/backup/set-br.sh && chmod +x set-br.sh && ./set-br.sh
+<pre><code>wget -O set-br.sh https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/backup/set-br.sh && chmod +x set-br.sh && ./set-br.sh
