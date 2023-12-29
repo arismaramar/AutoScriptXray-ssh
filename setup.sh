@@ -125,6 +125,38 @@ apt install python -y >/dev/null 2>&1
 echo -e "[ ${green}INFO${NC} ] Aight good ... installation file is ready"
 sleep 2
 echo -ne "[ ${green}INFO${NC} ] Check permission : "
+cd /root/
+# // Remove
+apt-get remove --purge nginx* -y
+apt-get remove --purge nginx-common* -y
+apt-get remove --purge nginx-full* -y
+apt-get remove --purge dropbear* -y
+apt-get remove --purge stunnel4* -y
+apt-get remove --purge apache2* -y
+apt-get remove --purge ufw* -y
+apt-get remove --purge firewalld* -y
+apt-get remove --purge exim4* -y
+apt-get remove --purge xray* -y
+apt autoremove -y
+
+# // Update
+apt update -y
+
+# // Install Requirement Tools
+apt-get --reinstall --fix-missing install -y sudo dpkg psmisc socat jq ruby wondershaper python2 tmux nmap bzip2 gzip coreutils wget screen rsyslog iftop htop net-tools zip unzip wget vim net-tools curl nano sed screen gnupg gnupg1 bc apt-transport-https build-essential gcc g++ automake make autoconf perl m4 dos2unix dropbear libreadline-dev zlib1g-dev libssl-dev dirmngr libxml-parser-perl neofetch git lsof iptables iptables-persistent
+apt-get --reinstall --fix-missing install -y libreadline-dev zlib1g-dev libssl-dev python2 screen curl jq bzip2 gzip coreutils rsyslog iftop htop zip unzip net-tools sed gnupg gnupg1 bc sudo apt-transport-https build-essential dirmngr libxml-parser-perl neofetch screenfetch git lsof openssl easy-rsa fail2ban tmux vnstat dropbear libsqlite3-dev socat cron bash-completion ntpdate xz-utils sudo apt-transport-https gnupg2 gnupg1 dnsutils lsb-release chrony
+gem install lolcat
+
+# // Update & Upgrade
+apt update -y
+apt upgrade -y
+apt dist-upgrade -y
+
+# // Clear
+clear
+clear && clear && clear
+clear;clear;clear
+
 
 mkdir -p /etc/Anggun
 mkdir -p /etc/Anggun/Queue
