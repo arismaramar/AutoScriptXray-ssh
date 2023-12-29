@@ -204,7 +204,7 @@ read -n 1 -s -r -p "Press any key to back on menu"
 menu
 }
 clear 
-figlet 'Bayu & Dans' | lolcat
+figlet 'ANGGUN' | lolcat
 echo -e "  ${z}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\033[0m${NC}"
 echo -e "  ${z}|\033[41m           ⇱ INFORMATIONS VPS ⇲             ${NC}${z}|${NC}"
 echo -e "  ${z}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\033[0m${NC}"
