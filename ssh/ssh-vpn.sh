@@ -17,7 +17,7 @@ locality=none
 organization=none
 organizationalunit=none
 commonname=none
-email=adamspx17@gmail.com
+email=arimar.amar@gmail.com
 
 # simple password minimal
 wget -q -O /etc/pam.d/common-password"https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/ssh/password"
@@ -130,6 +130,7 @@ cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/ssh/nginx.conf"
+wget -q -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/ssh/vps.conf"
 mkdir -p /home/vps/public_html
 /etc/init.d/nginx restart
 
