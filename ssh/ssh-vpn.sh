@@ -2,7 +2,7 @@
 # =========================================
 # Quick Setup | Script Setup Manager
 # Edition : Stable Edition V1.0
-# Author  : CRSe7en2nd
+# Author  : ANGGUN PREMIUM
 # (C) Copyright 2023
 # =========================================
 
