@@ -13,7 +13,6 @@ LIGHT='\033[0;37m'
 # Getting
 MYIP=$(wget -qO- ipinfo.io/ip);
 echo "Checking VPS"
-# Link anggun  
 
 apt install rclone -y
 printf "q\n" | rclone config
