@@ -125,8 +125,6 @@ apt install zip -y
 apt install curl pwgen openssl netcat cron -y
 apt install -y nginx
 cd
-rm -fr /etc/nginx/sites-enabled/default
-rm -fr /etc/nginx/sites-available/default
 
 # install xray
 sleep 1
@@ -194,7 +192,6 @@ wget -q -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/arismaramar/
 #mkdir -p /home/vps/public_html
 wget -q -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/ssh/vps.conf"
 
-
 # Install Xray #
 #==========#
 # / / Ambil Xray Core Version Terbaru
@@ -218,6 +215,7 @@ chmod +x /usr/local/bin/xray
 # set uuid
 uuid=$(cat /proc/sys/kernel/random/uuid)
 # xray config
+rm -fr /etc/xray/config.json
 cat > /etc/xray/config.json << END
 {
   "log" : {
@@ -376,29 +374,6 @@ cat > /etc/xray/config.json << END
                "serviceName": "trojan-grpc"
          }
       }
-   },
-   {
-    "listen": "127.0.0.1",
-    "port": "30310",
-    "protocol": "shadowsocks",
-    "settings": {
-        "clients": [
-          {
-             "method": "aes-128-gcm",
-             "password": "${uuid}"
-#ssgrpc
-           }
-         ],
-           "network": "tcp,udp"
-      },
-    "streamSettings":{
-     "network": "grpc",
-        "grpcSettings": {
-           "serviceName": "ss-grpc"
-          }
-       }
-    }	
-  ],
   "outbounds": [
     {
       "protocol": "freedom",
@@ -613,6 +588,7 @@ $uuid
 END
 
 #nginx config
+rm -fr /etc/nginx/conf.d/xray.conf
 cat >/etc/nginx/conf.d/xray.conf <<EOF
     server {
              listen 80;
@@ -638,7 +614,7 @@ EOF
 sed -i '$ ilocation / {' /etc/nginx/conf.d/xray.conf
 sed -i '$ iif ($http_upgrade != "Upgrade") {' /etc/nginx/conf.d/xray.conf
 sed -i '$ irewrite /(.*) /vmess break;' /etc/nginx/conf.d/xray.conf
-sed -i '$ i{' /etc/nginx/conf.d/xray.conf
+sed -i '$ i}' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_pass http://127.0.0.1:23456;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_http_version 1.1;' /etc/nginx/conf.d/xray.conf
@@ -648,7 +624,6 @@ sed -i '$ iproxy_set_header Upgrade \$http_upgrade;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header Connection "upgrade";' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header Host \$http_host;' /etc/nginx/conf.d/xray.conf
 sed -i '$ i}' /etc/nginx/conf.d/xray.conf
-
 
 sed -i '$ ilocation = /vless' /etc/nginx/conf.d/xray.conf
 sed -i '$ i{' /etc/nginx/conf.d/xray.conf
@@ -662,12 +637,22 @@ sed -i '$ iproxy_set_header Connection "upgrade";' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header Host \$http_host;' /etc/nginx/conf.d/xray.conf
 sed -i '$ i}' /etc/nginx/conf.d/xray.conf
 
-
-
 sed -i '$ ilocation = /trojan-ws' /etc/nginx/conf.d/xray.conf
 sed -i '$ i{' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_pass http://127.0.0.1:25432;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_http_version 1.1;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_set_header Upgrade \$http_upgrade;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_set_header Connection "upgrade";' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_set_header Host \$http_host;' /etc/nginx/conf.d/xray.conf
+sed -i '$ i}' /etc/nginx/conf.d/xray.conf
+
+sed -i '$ ilocation = /' /etc/nginx/conf.d/xray.conf
+sed -i '$ i{' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_pass http://127.0.0.1:700'';' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_http_version 1.1;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
@@ -692,18 +677,6 @@ sed -i '$ ilocation = /ss-ws' /etc/nginx/conf.d/xray.conf
 sed -i '$ i{' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_pass http://127.0.0.1:30300;' /etc/nginx/conf.d/xray.conf
-sed -i '$ iproxy_http_version 1.1;' /etc/nginx/conf.d/xray.conf
-sed -i '$ iproxy_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
-sed -i '$ iproxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
-sed -i '$ iproxy_set_header Upgrade \$http_upgrade;' /etc/nginx/conf.d/xray.conf
-sed -i '$ iproxy_set_header Connection "upgrade";' /etc/nginx/conf.d/xray.conf
-sed -i '$ iproxy_set_header Host \$http_host;' /etc/nginx/conf.d/xray.conf
-sed -i '$ i}' /etc/nginx/conf.d/xray.conf
-
-sed -i '$ ilocation = /' /etc/nginx/conf.d/xray.conf
-sed -i '$ i{' /etc/nginx/conf.d/xray.conf
-sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
-sed -i '$ iproxy_pass http://127.0.0.1:700;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_http_version 1.1;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
@@ -776,52 +749,5 @@ yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 yellow "xray/Vmess"
 yellow "xray/Vless"
 
-mv /root/domain /etc/xray/ 
-if [ -f /root/scdomain ];then
-rm /root/scdomain > /dev/null 2>&1
-fi
-clear
-rm -f ins-xray.sh  
-
-
-cd /usr/bin/
-# vmess
-wget -q -O add-ws "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/add-ws.sh" && chmod +x add-ws
-wget -q -O trialvmess "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/trialvmess.sh" && chmod +x trialvmess
-wget -q -O renew-ws "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/renew-ws.sh" && chmod +x renew-ws
-wget -q -O del-ws "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/del-ws.sh" && chmod +x del-ws
-wget -q -O cek-ws "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/cek-ws.sh" && chmod +x cek-ws
-
-# vless
-wget -q -O add-vless "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/add-vless.sh" && chmod +x add-vless
-wget -q -O trialvless "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/trialvless.sh" && chmod +x trialvless
-wget -q -O renew-vless "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/renew-vless.sh" && chmod +x renew-vless
-wget -q  -O del-vless "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/del-vless.sh" && chmod +x del-vless
-wget -q -O cek-vless "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/cek-vless.sh" && chmod +x cek-vless
-
-# trojan
-wget -q -O add-tr "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/add-tr.sh" && chmod +x add-tr
-wget -q -O trialtrojan "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/trialtrojan.sh" && chmod +x trialtrojan
-wget -q -O del-tr "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/del-tr.sh" && chmod +x del-tr
-wget -q -O renew-tr "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/renew-tr.sh" && chmod +x renew-tr
-wget -q -O cek-tr "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/cek-tr.sh" && chmod +x cek-tr
-
-# trojan go
-wget -q -O addtrgo "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/addtrgo.sh" && chmod +x addtrgo
-wget -q -O trialtrojango "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/trialtrojango.sh" && chmod +x trialtrojango
-wget -q -O deltrgo "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/deltrgo.sh" && chmod +x deltrgo
-wget -q -O renewtrgo "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/renewtrgo.sh" && chmod +x renewtrgo
-wget -q -O cektrgo "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/xray/cektrgo.sh" && chmod +x cektrgo
-
-
-sleep 1
-yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
-yellow "xray/Vmess"
-yellow "xray/Vless"
-
-mv /root/domain /etc/xray/ 
-if [ -f /root/scdomain ];then
-rm /root/scdomain > /dev/null 2>&1
-fi
 clear
 rm -f ins-xray.sh  
