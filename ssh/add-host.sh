@@ -64,21 +64,6 @@ sleep 2
 #echo -e "${OKEY} Starting Generating Certificate"
 systemctl stop nginx
 systemctl stop xray
-domain=$(cat /var/lib/Anggun/ipvps.conf | cut -d'=' -f2)
-Cek=$(lsof -i:80 | cut -d' ' -f1 | awk 'NR==2 {print $1}')
-if [[ ! -z "$Cek" ]]; then
-sleep 1
-echo -e "[ ${red}WARNING${NC} ] Detected port 80 used by $Cek " 
-systemctl stop $Cek
-sleep 2
-echo -e "[ ${GREEN}INFO${NC} ] Processing to stop $Cek " 
-sleep 1
-fi
-echo -e "[ ${GREEN}INFO${NC} ] Starting renew gen-ssl... " 
-sleep 2
-rm -d /root/.acme.sh
-rm -f /root/.acme.sh
-mkdir /root/.acme.sh
 curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh
 chmod +x /root/.acme.sh/acme.sh
 /root/.acme.sh/acme.sh --upgrade --auto-upgrade
@@ -88,9 +73,12 @@ chmod +x /root/.acme.sh/acme.sh
 # // Success
 #echo -e "${OKEY} Your Domain : $domain"
 
-
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 read -n 1 -s -r -p "PRESS [ ENTER ] KELUAR MENU"
 menu
 else
+echo "IP=$host" > /var/lib/Anggun/ipvps.conf
+echo "Dont forget to renew cert"
+echo ""
+read -n 1 -s -r -p "PRESS [ ENTER ] KELUAR MENU"
+certv2ray
 fi
