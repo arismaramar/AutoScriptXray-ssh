@@ -27,10 +27,10 @@
  
 ## ♦️INSTALLATION SCRIPT ( Recommended Debian 10 )♦️
 
-<pre><code>wget -O setup.sh https://raw.githubusercontent.com/arismaramar/AutoScriptXray/main/setup.sh && chmod +x setup.sh && ./setup.sh</code></pre>
+<pre><code>wget -O setup.sh https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh//main/setup.sh && chmod +x setup.sh && ./setup.sh</code></pre>
 
 ### UPDATE
-<pre><code>wget -O update.sh https://raw.githubusercontent.com/arismaramar/AutoScriptXray/main/options/update.sh && chmod +x update.sh && ./update.sh</code></pre>
+<pre><code>wget -O update.sh https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh//main/options/update.sh && chmod +x update.sh && ./update.sh</code></pre>
 
 # UNTUK PREMISSION (IZIN IP VPS) BISA LANGSUNG CHAT KE NOMER INI [LIST HARGA NYA] 
 👇👇
