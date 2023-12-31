@@ -13,11 +13,12 @@ LIGHT='\033[0;37m'
 # Getting
 MYIP=$(wget -qO- ipinfo.io/ip);
 echo "Checking VPS"
-# Link Hosting Kalian
+# Link anggun  
+anggun="raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/backup"
 
 apt install rclone -y
 printf "q\n" | rclone config
-wget -O /root/.config/rclone/rclone.conf "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/backup/rclone.conf"
+wget -O /root/.config/rclone/rclone.conf "https://${anggun}/rclone.conf"
 git clone  https://github.com/magnific0/wondershaper.git
 cd wondershaper
 make install
@@ -42,12 +43,12 @@ logfile ~/.msmtp.log
 EOF
 chown -R www-data:www-data /etc/msmtprc
 cd /usr/bin
-wget -O autobackup "arismaramar/AutoScriptXray-ssh/main/backup/autobackup.sh"
-wget -O backup "arismaramar/AutoScriptXray-ssh/main/backup/backup.sh"
-wget -O restore "arismaramar/AutoScriptXray-ssh/main/backup/restore.sh"
-wget -O strt "arismaramar/AutoScriptXray-ssh/main/backup/strt.sh"
-wget -O limitspeed "arismaramar/AutoScriptXray-ssh/main/backup/limitspeed.sh"
-wget -O menu-backup "arismaramar/AutoScriptXray-ssh/main/backup/menu-backup.sh"
+wget -O autobackup "anggun/AutoScriptXray-ssh/main/backup/autobackup.sh"
+wget -O backup "anggun/AutoScriptXray-ssh/main/backup/backup.sh"
+wget -O restore "anggun/AutoScriptXray-ssh/main/backup/restore.sh"
+wget -O strt "anggun/AutoScriptXray-ssh/main/backup/strt.sh"
+wget -O limitspeed "anggun/AutoScriptXray-ssh/main/backup/limitspeed.sh"
+wget -O menu-backup "anggun/AutoScriptXray-ssh/main/backup/menu-backup.sh"
 chmod +x autobackup
 chmod +x backup
 chmod +x restore
