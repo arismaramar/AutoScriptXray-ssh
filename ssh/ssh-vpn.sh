@@ -247,6 +247,7 @@ apt-get -y remove sendmail* >/dev/null 2>&1
 apt autoremove -y >/dev/null 2>&1
 # finishing
 cd
+mkdir -p /home/vps/public_html
 chown -R www-data:www-data /home/vps/public_html
 sleep 1
 echo -e "$yell[SERVICE]$NC Restart All service SSH & OVPN"
