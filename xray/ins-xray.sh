@@ -152,6 +152,39 @@ touch /home/Queue
 echo "" > /root/log-Queue.txt
 echo "" > /root/log-reboot.txt
 # nginx for debian & ubuntu
+install_ssl(){
+    if [ -f "/usr/bin/apt-get" ];then
+            isDebian=`cat /etc/issue|grep Debian`
+            if [ "$isDebian" != "" ];then
+                    apt-get install -y nginx certbot
+                    apt install -y nginx certbot
+                    sleep 3s
+            else
+                    apt-get install -y nginx certbot
+                    apt install -y nginx certbot
+                    sleep 3s
+            fi
+    else
+        yum install -y nginx certbot
+        sleep 3s
+    fi
+
+    systemctl stop nginx.service
+
+    if [ -f "/usr/bin/apt-get" ];then
+            isDebian=`cat /etc/issue|grep Debian`
+            if [ "$isDebian" != "" ];then
+                    echo "A" | certbot certonly --renew-by-default --register-unsafely-without-email --standalone -d $domain
+                    sleep 3s
+            else
+                    echo "A" | certbot certonly --renew-by-default --register-unsafely-without-email --standalone -d $domain
+                    sleep 3s
+            fi
+    else
+        echo "Y" | certbot certonly --renew-by-default --register-unsafely-without-email --standalone -d $domain
+        sleep 3s
+    fi
+}
 
 # install nginx
 apt install -y nginx
@@ -163,7 +196,6 @@ wget -q -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/arismaramar/
 wget -q -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/arismaramar/AutoScriptXray-ssh/main/ssh/vps.conf"
 
 
-# / / Ambil Xray Core Version Terbaru
 # Install Xray #
 #==========#
 # / / Ambil Xray Core Version Terbaru
@@ -173,20 +205,16 @@ xraycore_link="https://github.com/XTLS/Xray-core/releases/download/v$latest_vers
 # / / Ambil Xray Core Version Terbaru
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version $latest_version >/dev/null 2>&1
 
+# / / Make Main Directory
+mkdir -p /usr/bin/xray
+mkdir -p /etc/xray
+mkdir -p /usr/local/etc/xray
 # / / Unzip Xray Linux 64
 cd `mktemp -d`
 curl -sL "$xraycore_link" -o xray.zip
 unzip -q xray.zip && rm -rf xray.zip
-mv xray /etc/xray
-chmod +x /etc/xray/xray
-
-bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.5.6
-
-
-
-## crt xray
-
-mkdir -p /home/vps/public_html
+mv xray /usr/local/bin/xray
+chmod +x /usr/local/bin/xray
 
 # set uuid
 uuid=$(cat /proc/sys/kernel/random/uuid)
@@ -714,13 +742,29 @@ sed -i '$ i}' /etc/nginx/conf.d/xray.conf
 
 
 echo -e "$yell[SERVICE]$NC Restart All service"
-systemctl daemon-reload
+#quota
+echo -e "[ ${GREEN}ok${NC} ] Enable & Start & Restart & Xray"
+systemctl daemon-reload >/dev/null 2>&1
+systemctl enable xray >/dev/null 2>&1
+systemctl start xray >/dev/null 2>&1
+systemctl restart xray >/dev/null 2>&1
+echo -e "[ ${GREEN}ok${NC} ] Enable & Start & Restart & Nginx"
+systemctl daemon-reload >/dev/null 2>&1
+systemctl enable nginx >/dev/null 2>&1
+systemctl start nginx >/dev/null 2>&1
+systemctl restart nginx >/dev/null 2>&1
+# Restart All Service
+echo -e "$yell[SERVICE]$NC Restart All Service"
+sleep 1
+chown -R www-data:www-data /home/vps/public_html
+# Enable & Restart & Xray & Trojan & Nginx
+sleep 1
+echo -e "[ ${GREEN}ok${NC} ] Restart & Xray & Nginx"
+systemctl daemon-reload >/dev/null 2>&1
+systemctl restart xray >/dev/null 2>&1
+systemctl restart nginx >/dev/null 2>&1
 sleep 1
 echo -e "[ ${green}ok${NC} ] Enable & restart xray "
-systemctl daemon-reload
-systemctl enable xray
-systemctl restart xray
-systemctl restart nginx
 systemctl enable runn
 systemctl restart runn
 systemctl stop trojan-go
