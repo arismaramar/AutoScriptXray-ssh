@@ -94,6 +94,14 @@ ns_domain_cloudflare() {
     menu
 }
 
+function renew_domain() {
+    read -rp "Input ur Domain/Host : " -e domain
+    rm -rf /etc/xray/domain
+    echo $domain >/etc/xray/domain
+    get_acme_domain
+    ns_domain_cloudflare
+}
+
 
 cloudflare() {
     echo -e "   [${ORANGE}INFO${NC}] ${CYAN}Proses Pointing Sedang Berlangsung${NC} "
@@ -116,19 +124,17 @@ echo -e "───────────────────────�
               ${CYAN}Total RAM${NC}    :  ${ORANGE}$totalram MB${NC}
 ─────────────────────────────────────────────────────────────"
 echo -e "  ${CYAN}[1]${NC} ${RED}•${NC} ponting domain vpnpro.tech"
-echo -e "  ${CYAN}[0]${NC} ${RED}•${NC} Kembali Ke Menu"
+echo -e "  ${CYAN}[2]${NC} ${RED}•${NC} Kembali Ke Menu"
 echo -e "─────────────────────────────────────────────────────────────"
 read -p "Silahkan masukkan pilihan anda [1-2] : " NUM_MENU
 
 case $NUM_MENU in
-
-2)
+1)
     cloudflare
     ;;
-0)
+2)
     menu
     ;;
-*)
     get-domain
     ;;
 esac
