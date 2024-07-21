@@ -1,5 +1,4 @@
 # Autoscript | Free To Use For All
-Tolong di Fork atau "use this template" 🙏🙏
 ## ⏩ AUTOSCRIPT WEBSOCKET MULTIPORT 443/80 DETAILS ⏪
 
 [ SSH & XRAY SERVICES ] <br>
